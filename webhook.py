@@ -34,6 +34,7 @@ def makeWebhookResult(req):
     return {
         'speech': speech,
         'displayText': speech,
+        "source": 'STOCKS',
     }
 
 if __name__ == '__main__':
