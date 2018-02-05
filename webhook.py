@@ -35,7 +35,7 @@ def makeWebhookResult(req):
     return {
         'speech': speech,
         'displayText': speech,
-        "source": 'STOCKS',
+        "source": 'MrMoney-webhook',
     }
 
 if __name__ == '__main__':
