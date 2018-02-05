@@ -17,9 +17,10 @@ def webhook():
     print(json.dumps(req, indent = 4))
     res = makeWebhookResult(req)
     res = json.dumps(res, indent = 4)
-    print(res)
+    print(res + 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
     r = make_respons(res)
     r.headers['Content-Type'] = 'application/json'
+    print('1')
     return r
 
 def makeWebhookResult(req):
