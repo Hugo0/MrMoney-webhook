@@ -6,7 +6,7 @@ from flask import make_response
 
 app = Flask(__name__)
 
-@app.route('/webhook', method = ['POST'])
+@app.route('/webhook', methods = ['POST'])
 def webhook():
     req = request.get_json(silent = True, force = True)
     print('Request:')
