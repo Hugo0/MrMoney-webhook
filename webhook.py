@@ -21,16 +21,15 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 	
-ActionList = ['Stock', 'FinancialTip',]
-func_index = {1:'getStockValue', 2:'giveFinancialTip',}
-
 def processRequest(req):
 	if req not in ActionList:
 		return {}
-	else: 
-		func_index = ActionList.index(req)
+	else:
+	    func_index = ActionList.index(req)
+	    func_list[req](req)
 
 def getStockValue(req):
+    print(1)
     result = req.get('result')
     parameters = result.get('parameters')
     stock = parameters.get('Stock')
@@ -60,6 +59,9 @@ def makeWebhookResult(req):
         'speech': speech,
         'displayText': speech,
     }
+
+ActionList = ['Stock', 'FinancialTip',]
+func_list = {'Stock':getStockValue, 'FinancialTip' :giveFinancialTip,}
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
