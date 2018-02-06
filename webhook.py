@@ -17,7 +17,7 @@ def webhook():
     res = processRequest(req)
     res = json.dumps(res, indent = 4)
     print('/n ------------------------------------------------' + res )
-    r = make_respons(res)
+    r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 	
