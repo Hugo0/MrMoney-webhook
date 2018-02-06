@@ -24,7 +24,7 @@ def webhook():
 
 ActionList = ['Stock', 'FinancialTip',]	
 def processRequest(req):
-    if req not in ActionList:
+    if req.result.action not in ActionList:
         return {}
     elif req == 'Stock':
         return getStockValue(req)
@@ -36,7 +36,7 @@ def getStockValue(req):
     result = req.get('result')
     parameters = result.get('parameters')
     stock = parameters.get('Stock')
-    stock_prices = {Apple:'102,5', Microsoft:'34,7', Google: '1001,56'}
+    stock_prices = {'Apple':'102,5', 'Microsoft':'34,7', 'Google': '1001,56'}
     current_price = stock_prices[stock]
 	
     speech = 'The current price of this stock is ' + current_price + '$'
