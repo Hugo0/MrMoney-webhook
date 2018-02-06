@@ -24,11 +24,12 @@ def webhook():
 
 ActionList = ['Stock', 'FinancialTip',]	
 def processRequest(req):
-    if req.result.action not in ActionList:
+    action = req.get('result').get('action')
+    if action not in ActionList:
         return {}
-    elif req == 'Stock':
+    elif action == 'Stock':
         return getStockValue(req)
-    elif req == 'FinancialTip':
+    elif action == 'FinancialTip':
         return giveFinancialTip()
 
 def getStockValue(req):
