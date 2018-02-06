@@ -1,6 +1,7 @@
 import urllib
 import json
 import os
+import random
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -20,13 +21,15 @@ def webhook():
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
-	
+
+ActionList = ['Stock', 'FinancialTip',]	
 def processRequest(req):
-	if req not in ActionList:
-		return {}
-	else:
-	    func_index = ActionList.index(req)
-	    func_list[req](req)
+    if req not in ActionList:
+        return {}
+    elif req == 'Stock':
+        return getStockValue(req)
+    elif req == 'FinancialTip':
+        return giveFinancialTip()
 
 def getStockValue(req):
     print(1)
@@ -45,7 +48,12 @@ def getStockValue(req):
     }
 	
 def giveFinancialTip(req):
-	return 'earn more money'
+    tips = ['earn more money dummy', 'spend less money',
+            'don\'t get married', 'ask god for money']
+    return {
+        'speech': tips[random.randint(0, len(tips))],
+        'displayText': tips[random.randint(0, len(tips))],
+    }
 	
 	
 def makeWebhookResult(req):
@@ -60,8 +68,6 @@ def makeWebhookResult(req):
         'displayText': speech,
     }
 
-ActionList = ['Stock', 'FinancialTip',]
-func_list = {'Stock':getStockValue, 'FinancialTip' :giveFinancialTip,}
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
