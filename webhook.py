@@ -1,7 +1,6 @@
 import urllib
 import json
 import os
-
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -13,18 +12,44 @@ app = Flask(__name__)
 @app.route('/webhook', methods = ['POST'])
 def webhook():
     req = request.get_json(silent = True, force = True)
-    print('Request:')
+    print('--------------------Request:----------------------')
     print(json.dumps(req, indent = 4))
-    res = makeWebhookResult(req)
+    res = processRequest(req)
     res = json.dumps(res, indent = 4)
-    r = make_response(res)
+    print('/n ------------------------------------------------' + res )
+    r = make_respons(res)
     r.headers['Content-Type'] = 'application/json'
-    print('1')
     return r
+	
+ActionList = ['Stock', 'FinancialTip',]
+func_index = {1:'getStockValue', 2:'giveFinancialTip',}
 
+def processRequest(req):
+	if req not in ActionList:
+		return {}
+	else: 
+		func_index = ActionList.index(req)
+
+def getStockValue(req):
+    result = req.get('result')
+    parameters = result.get('parameters')
+    stock = parameters.get('Stock')
+    stock_prices = {Apple:'102,5', Microsoft:'34,7', Google: '1001,56'}
+    current_price = stock_prices[stock]
+	
+    speech = 'The current price of this stock is ' + current_price + '$'
+    print('----------Result:------------')
+    print(speech)
+    return {
+        'speech': speech,
+        'displayText': speech,
+    }
+	
+def giveFinancialTip(req):
+	return 'earn more money'
+	
+	
 def makeWebhookResult(req):
-    if req.get('result').get('action') != 'Stock':
-        return {}
     result = req.get('result')
     parameters = result.get('parameters')
     name = parameters.get('Stock')
@@ -34,7 +59,6 @@ def makeWebhookResult(req):
     return {
         'speech': speech,
         'displayText': speech,
-        "source": 'agent',
     }
 
 if __name__ == '__main__':
@@ -42,6 +66,4 @@ if __name__ == '__main__':
 
     print("Starting app on port %d" % port)
 
-    app.run(debug=False, port=port, host='0.0.0.0')
-
-
+    app.run(debug=True, port=port, host='0.0.0.0')
