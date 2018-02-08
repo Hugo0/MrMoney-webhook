@@ -48,12 +48,13 @@ def getStockValue(req):
         'displayText': speech,
     }
 	
-def giveFinancialTip(req):
+def giveFinancialTip():
     tips = ['earn more money dummy', 'spend less money',
             'don\'t get married', 'ask god for money']
+    r = random.randint(0, len(tips)-1)
     return {
-        'speech': tips[random.randint(0, len(tips))],
-        'displayText': tips[random.randint(0, len(tips))],
+        'speech': tips[r],
+        'displayText': tips[r],
     }
 	
 	
